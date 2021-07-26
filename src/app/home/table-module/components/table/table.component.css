@@ -1,0 +1,23 @@
+::ng-deep #gridContainer {
+  top: 150px;
+  left: 70px;
+}
+
+button {
+  margin-bottom: 50px;
+  margin-top: 20px;
+}
+
+img {
+  height: 100px;
+  display: block;
+}
+
+.icons-column {
+  display: flex;
+  justify-content: center;
+}
+
+.icon {
+  height: 25px;
+}

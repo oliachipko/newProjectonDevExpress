@@ -1,7 +1,14 @@
 export interface UsersModel {
-  postId: number,
-  id: number,
-  name: string,
-  email: string,
-  body: string
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+  street: string;
+  city: string;
+  location: string;
+  phone:string;
+  website: string;
+  companyname: string;
+  catchphrase: string;
+  bs: string;
 }

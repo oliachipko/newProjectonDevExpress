@@ -1,7 +1,42 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <button (click)="getData('todos')" class="btn btn-primary me-md-2" type="button">My todos</button>
+    </div>
+    <div class="col-sm">
+      <button (click)="getData('photos')" class="btn btn-primary me-md-2" type="button">Photos</button>
+    </div>
+    <div class="col-sm">
+      <button (click)="getData('users')" class="btn btn-primary me-md-2" type="button">Users</button>
+    </div>
+  </div>
+
 <dx-data-grid
-  id="gridContainer"
-  [dataSource]="users"
-  [columns]="['id', 'name', 'email', 'body']"
+  id="gridContainer" #dataGrid
+  [dataSource]="datasource"
   [showRowLines]="true"
+  [columnAutoWidth]="true"
+  keyExpr="id"
+  (onCellClick)="cellClick($event)"
   >
+  <dxi-column *ngFor="let data of columns"
+              cellTemplate="{{isAdditionalAttributeRequired(data) ? data : ''}}" dataField="{{data}}"></dxi-column>
+
+  <div *dxTemplate="let data of 'completed'" class="icons-column">
+    <img *ngIf="data.value" src="assets/done.png" [width]="25" class="icon">
+    <img *ngIf="!data.value" src="assets/fail.jpg" [width]="25" class="icon">
+  </div>
+
+  <div *dxTemplate="let data of 'url'">
+    <img [src]="data.value"/>
+  </div>
+
+  <div *dxTemplate="let data of 'thumbnailUrl'">
+    <img [src]="data.value"/>
+  </div>
+
+    <div *dxTemplate="let data of 'location'">
+      <img [src]="data.value">
+    </div>
 </dx-data-grid>
+</div>
