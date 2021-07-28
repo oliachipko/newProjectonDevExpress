@@ -11,32 +11,38 @@
     </div>
   </div>
 
-<dx-data-grid
-  id="gridContainer" #dataGrid
-  [dataSource]="datasource"
-  [showRowLines]="true"
-  [columnAutoWidth]="true"
-  keyExpr="id"
-  (onCellClick)="cellClick($event)"
-  >
-  <dxi-column *ngFor="let data of columns"
-              cellTemplate="{{isAdditionalAttributeRequired(data) ? data : ''}}" dataField="{{data}}"></dxi-column>
+    <dx-data-grid
+    id="gridContainer"
+    [dataSource]="datasource"
+    [showRowLines]="true"
+    [columnAutoWidth]="true"
+    [showBorders]="true"
+    [visible]="true"
+    [columns]="columns"
+    keyExpr="id"
+    (onCellClick)="cellClick($event)"
+    [noDataText]="''"
+    >
+      <div *dxTemplate="let data of 'completed'" class="icons-column">
+        <img *ngIf="data.value" src="assets/done.png" [width]="25" class="icon">
+        <img *ngIf="!data.value" src="assets/fail.jpg" [width]="25" class="icon">
+      </div>
 
-  <div *dxTemplate="let data of 'completed'" class="icons-column">
-    <img *ngIf="data.value" src="assets/done.png" [width]="25" class="icon">
-    <img *ngIf="!data.value" src="assets/fail.jpg" [width]="25" class="icon">
-  </div>
+      <div *dxTemplate="let data of 'url'" class="photo">
+        <img [src]="data.value">
+      </div>
 
-  <div *dxTemplate="let data of 'url'">
-    <img [src]="data.value"/>
-  </div>
+      <div *dxTemplate="let data of 'thumbnailUrl'" class="photo">
+        <img [src]="data.value">
+      </div>
 
-  <div *dxTemplate="let data of 'thumbnailUrl'">
-    <img [src]="data.value"/>
-  </div>
+      <div *dxTemplate="let data of 'location'" class="location">
+        <img [src]="data.value" [width]="25" class="icon">
+      </div>
 
-    <div *dxTemplate="let data of 'location'">
-      <img [src]="data.value">
-    </div>
-</dx-data-grid>
+      <div *dxTemplate="let data of 'website'" class="website">
+        <a [href]="'https://'+data.value">{{data.value}}</a>
+      </div>
+
+    </dx-data-grid>
 </div>

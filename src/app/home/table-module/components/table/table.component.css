@@ -21,3 +21,23 @@ img {
 .icon {
   height: 25px;
 }
+
+.location {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+
+.website {
+  cursor: pointer;
+}
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+.photo {
+  display: flex;
+  justify-content: center;
+}

@@ -1,7 +1,7 @@
 export interface PhotosModel {
-  albumId: number,
-  id: number,
-  title: string,
-  url: string,
-  thumbnailUrl: string
+  albumId: number | null;
+  id: number | null;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
 }

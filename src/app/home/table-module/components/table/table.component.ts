@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import { Component } from '@angular/core';
 import {GetUsersService} from "../../services/get-users.service";
 import {PhotosModel} from "../../../../../models/photos.model";
 import {TodosModel} from "../../../../../models/todos.model";
 import {UsersModel} from "../../../../../models/users.model";
 import {HelperService} from "../../services/helper.service";
-
+import DevExpress from "devextreme";
 
 @Component({
   selector: 'app-table',
@@ -13,8 +13,7 @@ import {HelperService} from "../../services/helper.service";
 })
 export class TableComponent {
   datasource: PhotosModel[] | TodosModel[] | UsersModel[] = [];
-  numberOfTable = 0;
-  columns: any[] = [];
+  columns: Array<DevExpress.ui.dxDataGridColumn | string> = this.helperService.getEmptyColumns();
   constructor(
     private userService: GetUsersService,
     private helperService: HelperService
@@ -22,16 +21,31 @@ export class TableComponent {
 
   getData(entity: string): void {
     this.userService.getData(entity).subscribe(data => {
-      if (entity === 'users') {
-        this.datasource = this.getDataSource(data);
-      } else {
-        this.datasource = data;
+      switch(entity) {
+        case 'users':
+          this.datasource = this.getDataSource(data);
+          this.columns = this.helperService.getUserColumns();
+          break;
+        case 'todos':
+          this.datasource = data;
+          this.columns = this.helperService.getTodosColumns();
+          break;
+        case 'photos':
+          this.datasource = data;
+          this.columns = this.helperService.getPhotosColumns();
+          break;
       }
-      this.columns = this.helperService.getColumns(this.datasource);
+      // if (entity === 'users') {
+      //   this.datasource = this.getDataSource(data);
+      //   this.columns = this.helperService.getUserColumns();
+      // } else {
+      //   this.datasource = data;
+      // }
+
     });
   }
 
-  getDataSource(data: any[]) {
+  getDataSource(data: any[]): UsersModel[] {
     return data.map(item => {
       return {
         id: item.id,
@@ -40,25 +54,22 @@ export class TableComponent {
         email: item.username,
         street: item.address.street,
         city: item.address.city,
+        latitude: item.address.geo.lat,
+        longitude: item.address.geo.lng,
         location: 'assets/icon-earth-14.jpg',
         phone: item.phone,
         website: item.website,
-        companyname: item.company.name,
-        catchphrase: item.company.catchphrase,
-        bs: item.company.bs
+        company: item.company.name,
+        phrase: item.company.catchphrase,
+        business: item.company.bs
       }
     })
   }
 
-  cellClick(e: any) {
+  cellClick(e: any): void {
     if (e.value !== e.data.location) {
       return;
     }
-    window.open('https://www.google.com/maps/search/?api=1&query='+e.data.city);
+    window.open(`https://www.google.com/maps/search/?api=1&query=${e.data.latitude}%2C${e.data.longitude}`);
   }
-
-  isAdditionalAttributeRequired(field: string): boolean {
-    return ['completed', 'url', 'thumbnailUrl', 'location'].some(value => value === field);
-  }
-
 }

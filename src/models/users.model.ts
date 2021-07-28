@@ -7,8 +7,10 @@ export interface UsersModel {
   city: string;
   location: string;
   phone:string;
+  latitude: string;
+  longitude: string;
   website: string;
-  companyname: string;
-  catchphrase: string;
-  bs: string;
+  company: string;
+  phrase: string;
+  business: string;
 }
